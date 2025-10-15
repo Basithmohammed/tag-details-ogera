@@ -6,18 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OGERA Service</title>
     <link rel="icon" type="image/png" href="logo.jpeg">
-    <!-- ...existing code... -->
     <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-    <!-- ...existing code... -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <!-- Choices.js for searchable dropdown -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
     <script>
         (function () {
-            emailjs.init("EL0iKkv9XdLt50uLZ"); // Replace with your EmailJS user ID
+            emailjs.init("EL0iKkv9XdLt50uLZ");
         })();
     </script>
-    <!-- ...existing code... -->
-
-    <!-- ...existing code... -->
     <style>
         body {
             background: #464444;
@@ -82,11 +80,9 @@
             background: #005fa3;
         }
     </style>
-    <!-- ...existing code... -->
 </head>
 
 <body>
-    <!-- ...existing code... -->
     <form id="salesForm">
         <label for="salesPerson">Sales Person:</label>
         <select id="salesPerson" name="salesPerson" required>
@@ -94,11 +90,8 @@
             <option value="1" data-id="SP001">Irshad</option>
             <option value="2" data-id="SP002">Sajith</option>
             <option value="3" data-id="SP003">Sujith</option>
-            <!-- Add more sales persons here -->
         </select>
         <input type="text" id="salesPersonId" name="salesPersonId" placeholder="Sales Person ID" readonly>
-
-
 
         <label for="product">Product:</label>
         <select id="product" name="product" required>
@@ -106,37 +99,31 @@
             <option value="A" data-id="P1001">Pressure Cooker</option>
             <option value="B" data-id="P1002">Blender</option>
             <option value="C" data-id="P1003">Toaster</option>
-            <!-- Add more products here -->
         </select>
         <input type="text" id="productId" name="productId" placeholder="Product ID" readonly>
 
-
+        <label for="productSerial">Product Serial Number:</label>
+        <input type="text" id="productSerial" name="productSerial" placeholder="Enter Serial Number" required>
 
         <label for="dealerName">Dealer Name:</label>
         <select id="dealerName" name="dealerName" required>
             <option value="" disabled selected>Select Dealer</option>
-            <!-- Dealers will be populated dynamically -->
         </select>
-
-
 
         <label for="dealerContact">Dealer Contact Number:</label>
         <input type="tel" id="dealerContact" name="dealerContact" required pattern="[0-9]{10}"
             placeholder="Dealer contact will appear here" readonly>
 
         <label for="complaint">Complaint:</label>
-        <textarea id="complaint" name="complaint" rows="3" placeholder="Enter complaint details here..."
-            required></textarea>
+        <textarea id="complaint" name="complaint" rows="3" placeholder="Enter complaint details here..." required></textarea>
 
         <label for="complaintDate">Complaint Date:</label>
         <input type="date" id="complaintDate" name="complaintDate" required>
-
 
         <button type="submit">Submit</button>
     </form>
 
     <script>
-        // Sample data mapping sales persons to dealers and contacts
         const salesPersonDealers = {
             "1": [
                 { name: "Dealer A1", contact: "9876543210", email: "dealerA1@email.com" },
@@ -151,57 +138,60 @@
             ]
         };
 
-        // Sales person emails
         const salesPersonEmails = {
             "1": "m.basith@ogeraglobal.com",
             "2": "bob.smith@ogeraglobal.com",
             "3": "charlie.lee@ogeraglobal.com"
         };
 
-        // Sales head email
         const salesHeadEmail = "service@ogeraglobal.com";
 
-        // Auto-fill Sales Person ID and populate dealers
+        // Initialize Choices.js for searchable dealer dropdown
+        document.addEventListener('DOMContentLoaded', function () {
+            window.dealerChoices = new Choices('#dealerName', {
+                searchEnabled: true,
+                itemSelectText: '',
+                shouldSort: false
+            });
+        });
+
         document.getElementById('salesPerson').addEventListener('change', function () {
             const selected = this.options[this.selectedIndex];
             document.getElementById('salesPersonId').value = selected.getAttribute('data-id') || '';
 
-            // Populate dealer dropdown
-            const dealerSelect = document.getElementById('dealerName');
-            dealerSelect.innerHTML = '<option value="" disabled selected>Select Dealer</option>';
             const dealers = salesPersonDealers[this.value] || [];
-            dealers.forEach((dealer, idx) => {
-                const option = document.createElement('option');
-                option.value = idx;
-                option.textContent = dealer.name;
-                option.setAttribute('data-contact', dealer.contact);
-                dealerSelect.appendChild(option);
-            });
+            window.dealerChoices.clearChoices();
+            window.dealerChoices.setChoices(
+                dealers.map((dealer, idx) => ({
+                    value: idx,
+                    label: dealer.name,
+                    customProperties: { contact: dealer.contact }
+                })),
+                'value',
+                'label',
+                false
+            );
 
-            // Clear dealer contact field
             document.getElementById('dealerContact').value = '';
         });
 
-        // Auto-fill Product ID
         document.getElementById('product').addEventListener('change', function () {
             const selected = this.options[this.selectedIndex];
             document.getElementById('productId').value = selected.getAttribute('data-id') || '';
         });
 
-        // Auto-fill Dealer Contact Number
         document.getElementById('dealerName').addEventListener('change', function () {
-            const selected = this.options[this.selectedIndex];
-            document.getElementById('dealerContact').value = selected.getAttribute('data-contact') || '';
+            const selectedIdx = this.value;
+            const salesPersonValue = document.getElementById('salesPerson').value;
+            const selectedDealer = (salesPersonDealers[salesPersonValue] || [])[selectedIdx];
+            document.getElementById('dealerContact').value = selectedDealer ? selectedDealer.contact : '';
         });
 
-        // Handle form submission
         document.getElementById('salesForm').addEventListener('submit', function (e) {
             e.preventDefault();
 
-            // Generate a random code
             const autoCode = 'TAG-' + Math.floor(100000 + Math.random() * 900000);
 
-            // Get form values
             const salesPersonSelect = document.getElementById('salesPerson');
             const salesPersonId = document.getElementById('salesPersonId').value;
             const salesPersonName = salesPersonSelect.options[salesPersonSelect.selectedIndex].text;
@@ -211,6 +201,8 @@
             const productId = document.getElementById('productId').value;
             const productName = productSelect.options[productSelect.selectedIndex].text;
 
+            const productSerial = document.getElementById('productSerial').value;
+
             const dealerSelect = document.getElementById('dealerName');
             const dealerName = dealerSelect.options[dealerSelect.selectedIndex].text;
             const dealerContact = document.getElementById('dealerContact').value;
@@ -218,19 +210,12 @@
             const complaint = document.getElementById('complaint').value;
             const complaintDate = document.getElementById('complaintDate').value;
 
-
-            // // Validate sales person email
-            // if (!salesPersonEmail) {
-            //     alert('Sales person email is missing. Please select a valid sales person.');
-            //     return;
-            // }
-            
-            // Prepare email params
             const templateParams = {
                 sales_person_name: salesPersonName,
                 sales_person_id: salesPersonId,
                 product_name: productName,
                 product_id: productId,
+                product_serial: productSerial,
                 dealer_name: dealerName,
                 dealer_contact: dealerContact,
                 complaint: complaint,
@@ -238,12 +223,10 @@
                 auto_code: autoCode
             };
 
-            // Send email to sales person
             emailjs.send('service_tj3qg0s', 'template_e59692j', {
                 ...templateParams,
                 to_email: salesPersonEmail
             }).then(function () {
-                // Send email to sales head
                 emailjs.send('service_tj3qg0s', 'template_e59692j', {
                     ...templateParams,
                     to_email: salesHeadEmail
@@ -253,7 +236,7 @@
                     document.getElementById('salesPersonId').value = '';
                     document.getElementById('productId').value = '';
                     document.getElementById('dealerContact').value = '';
-                    document.getElementById('dealerName').innerHTML = '<option value="" disabled selected>Select Dealer</option>';
+                    window.dealerChoices.clearChoices();
                 }, function (error) {
                     alert('Failed to send email to sales head: ' + error.text);
                 });
@@ -262,7 +245,6 @@
             });
         });
     </script>
-    <!-- ...existing code... -->
 </body>
 
 </html>
