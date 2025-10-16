@@ -6,19 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OGERA Service</title>
     <link rel="icon" type="image/png" href="logo.jpeg">
+    
+    <!-- EmailJS -->
     <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
     <!-- Choices.js for searchable dropdown -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
     <script>
         (function () {
             emailjs.init("EL0iKkv9XdLt50uLZ");
         })();
     </script>
+
     <style>
         body {
-            background: #464444;
+            background: linear-gradient(135deg, #1f1f1f, #2c2c2c);
             min-height: 100vh;
             margin: 0;
             display: flex;
@@ -28,65 +33,95 @@
         }
 
         #salesForm {
-            background: #fff;
-            padding: 32px 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            background: #2b2b2b;
+            padding: 40px 35px;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
             min-width: 350px;
-            max-width: 400px;
+            max-width: 450px;
             width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 15px;
+            color: #f0f0f0;
+        }
+
+        #salesForm h2 {
+            text-align: center;
+            color: #00c6ff;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
         }
 
         #salesForm label {
-            font-weight: 500;
-            margin-bottom: 6px;
-            color: #333;
+            font-weight: 600;
+            color: #e0e0e0;
         }
 
         #salesForm select,
-        #salesForm input {
-            padding: 8px 10px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
+        #salesForm input,
+        #salesForm textarea {
+            padding: 12px 14px;
+            border: 1px solid #555;
+            border-radius: 8px;
             font-size: 1rem;
-            margin-bottom: 4px;
-            background: #fafbfc;
-            transition: border-color 0.2s;
-        }
-
-        #salesForm select:focus,
-        #salesForm input:focus {
-            border-color: #0078d4;
+            background: #3a3a3a;
+            color: #f0f0f0;
             outline: none;
         }
 
+        #salesForm select:focus,
+        #salesForm input:focus,
+        #salesForm textarea:focus {
+            border-color: #00c6ff;
+            box-shadow: 0 0 8px rgba(0, 198, 255, 0.4);
+        }
+
+        #salesForm textarea {
+            resize: none;
+        }
+
         #salesForm button {
-            background: #0078d4;
-            color: #fff;
+            padding: 12px 0;
             border: none;
-            border-radius: 6px;
-            padding: 10px 0;
+            border-radius: 8px;
+            background: #00c6ff;
+            color: #1f1f1f;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             margin-top: 10px;
-            transition: background 0.2s;
         }
 
         #salesForm button:hover {
-            background: #005fa3;
+            background: #00a0cc;
+        }
+
+        .choices__inner {
+            color: #000 !important;
+            background-color: #fff !important;
+        }
+
+        .choices__list--dropdown .choices__item--choice {
+            color: #000 !important;
+        }
+
+        #salesPersonId,
+        #productId,
+        #dealerContact {
+            background: #e0e0e0 !important;
+            color: #000 !important;
         }
     </style>
 </head>
 
 <body>
     <form id="salesForm">
+        <h2>Submit Tag Details</h2>
+
         <label for="salesPerson">Sales Person:</label>
         <select id="salesPerson" name="salesPerson" required>
-            <option value="" disabled selected>Select Sales Person</option>
+            <option value="" disabled>Select Sales Person</option>
             <option value="1" data-id="SP001">Irshad</option>
             <option value="2" data-id="SP002">Sajith</option>
             <option value="3" data-id="SP003">Sujith</option>
@@ -111,8 +146,7 @@
         </select>
 
         <label for="dealerContact">Dealer Contact Number:</label>
-        <input type="tel" id="dealerContact" name="dealerContact" required pattern="[0-9]{10}"
-            placeholder="Dealer contact will appear here" readonly>
+        <input type="tel" id="dealerContact" name="dealerContact" required pattern="[0-9]{10}" placeholder="Dealer contact will appear here" readonly>
 
         <label for="complaint">Complaint:</label>
         <textarea id="complaint" name="complaint" rows="3" placeholder="Enter complaint details here..." required></textarea>
@@ -146,38 +180,49 @@
 
         const salesHeadEmail = "service@ogeraglobal.com";
 
-        // Initialize Choices.js for searchable dealer dropdown
         document.addEventListener('DOMContentLoaded', function () {
-            window.dealerChoices = new Choices('#dealerName', {
-                searchEnabled: true,
-                itemSelectText: '',
-                shouldSort: false
-            });
+            window.dealerChoices = new Choices('#dealerName', { searchEnabled: true, itemSelectText: '', shouldSort: false });
+
+            // Auto-fill Sales Person from login
+            const user = sessionStorage.getItem('loggedInUser');
+            if (user) {
+                const salesPersonMap = { "Irshad": "1", "Sajith": "2", "Sujith": "3" };
+                const salesPersonIdMap = { "Irshad": "SP001", "Sajith": "SP002", "Sujith": "SP003" };
+                const salesPersonSelect = document.getElementById('salesPerson');
+                salesPersonSelect.value = salesPersonMap[user];
+                document.getElementById('salesPersonId').value = salesPersonIdMap[user];
+
+                // Populate dealers automatically
+                const dealers = salesPersonDealers[salesPersonSelect.value] || [];
+                window.dealerChoices.clearChoices();
+                window.dealerChoices.setChoices(
+                    dealers.map((dealer, idx) => ({
+                        value: idx.toString(),
+                        label: dealer.name,
+                        customProperties: { contact: dealer.contact }
+                    })), 'value', 'label', false
+                );
+            }
         });
 
         document.getElementById('salesPerson').addEventListener('change', function () {
-            const selected = this.options[this.selectedIndex];
-            document.getElementById('salesPersonId').value = selected.getAttribute('data-id') || '';
+            const selectedId = this.options[this.selectedIndex].getAttribute('data-id');
+            document.getElementById('salesPersonId').value = selectedId;
 
             const dealers = salesPersonDealers[this.value] || [];
             window.dealerChoices.clearChoices();
             window.dealerChoices.setChoices(
                 dealers.map((dealer, idx) => ({
-                    value: idx,
+                    value: idx.toString(),
                     label: dealer.name,
                     customProperties: { contact: dealer.contact }
-                })),
-                'value',
-                'label',
-                false
+                })), 'value', 'label', false
             );
-
             document.getElementById('dealerContact').value = '';
         });
 
         document.getElementById('product').addEventListener('change', function () {
-            const selected = this.options[this.selectedIndex];
-            document.getElementById('productId').value = selected.getAttribute('data-id') || '';
+            document.getElementById('productId').value = this.options[this.selectedIndex].getAttribute('data-id') || '';
         });
 
         document.getElementById('dealerName').addEventListener('change', function () {
@@ -200,7 +245,6 @@
             const productSelect = document.getElementById('product');
             const productId = document.getElementById('productId').value;
             const productName = productSelect.options[productSelect.selectedIndex].text;
-
             const productSerial = document.getElementById('productSerial').value;
 
             const dealerSelect = document.getElementById('dealerName');
@@ -223,28 +267,23 @@
                 auto_code: autoCode
             };
 
-            emailjs.send('service_tj3qg0s', 'template_e59692j', {
-                ...templateParams,
-                to_email: salesPersonEmail
-            }).then(function () {
-                emailjs.send('service_tj3qg0s', 'template_e59692j', {
-                    ...templateParams,
-                    to_email: salesHeadEmail
-                }).then(function () {
-                    alert('Form submitted and emails sent!');
-                    document.getElementById('salesForm').reset();
-                    document.getElementById('salesPersonId').value = '';
-                    document.getElementById('productId').value = '';
-                    document.getElementById('dealerContact').value = '';
-                    window.dealerChoices.clearChoices();
-                }, function (error) {
-                    alert('Failed to send email to sales head: ' + error.text);
-                });
-            }, function (error) {
-                alert('Failed to send email to sales person: ' + error.text);
-            });
+            // Email to Sales Person
+            emailjs.send('service_tj3qg0s', 'template_e59692j', { ...templateParams, to_email: salesPersonEmail })
+                .then(() => {
+                    // Email to Sales Head
+                    emailjs.send('service_tj3qg0s', 'template_e59692j', { ...templateParams, to_email: salesHeadEmail })
+                        .then(() => {
+                            alert('Form submitted and emails sent!');
+                            document.getElementById('salesForm').reset();
+                            document.getElementById('salesPersonId').value = '';
+                            document.getElementById('productId').value = '';
+                            document.getElementById('dealerContact').value = '';
+                            window.dealerChoices.clearChoices();
+                        })
+                        .catch(error => alert('Failed to send email to sales head: ' + error.text));
+                })
+                .catch(error => alert('Failed to send email to sales person: ' + error.text));
         });
     </script>
 </body>
-
 </html>

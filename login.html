@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ogera Service</title>
+    <link rel="icon" type="image/png" href="logo.jpeg">
+    <style>
+        /* Body & Background */
+        body {
+            background: linear-gradient(135deg, #1f1f1f, #2c2c2c);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        /* Card container */
+        #loginForm {
+            background: #2b2b2b;
+            padding: 40px 35px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            transform: scale(0.9);
+            animation: popin 0.5s forwards;
+        }
+
+        @keyframes popin {
+            to { transform: scale(1); }
+        }
+
+        /* Form headings */
+        #loginForm h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #00c6ff;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+        }
+
+        /* Labels */
+        label {
+            font-weight: 500;
+            color: #e0e0e0;
+            margin-bottom: 4px;
+        }
+
+        /* Inputs & Select */
+        #loginForm select,
+        #loginForm input {
+            padding: 12px 15px;
+            border: 1px solid #555;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: #3a3a3a;
+            color: #f0f0f0;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        #loginForm select:focus,
+        #loginForm input:focus {
+            border-color: #00c6ff;
+            box-shadow: 0 0 8px rgba(0, 198, 255, 0.4);
+        }
+
+        /* Button */
+        #loginForm button {
+            padding: 12px 0;
+            border: none;
+            border-radius: 8px;
+            background: #00c6ff;
+            color: #1f1f1f;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #loginForm button:hover {
+            background: #00a0cc;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 198, 255, 0.3);
+        }
+
+        /* Error message */
+        .error {
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            display: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <form id="loginForm">
+        <h2>Sales Person Login</h2>
+
+        <label for="username">Select Sales Person:</label>
+        <select id="username" required>
+            <option value="" disabled selected>Select Sales Person</option>
+            <option value="Irshad">Irshad</option>
+            <option value="Sajith">Sajith</option>
+            <option value="Sujith">Sujith</option>
+        </select>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" placeholder="Enter Password" required>
+
+        <div class="error" id="errorMsg">Invalid username or password</div>
+        <button type="submit">Login</button>
+    </form>
+
+    <script>
+        const salesPersons = {
+            "Irshad": "password123",
+            "Sajith": "pass456",
+            "Sujith": "secret789"
+        };
+
+        document.getElementById('loginForm').addEventListener('submit', function(e){
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if(salesPersons[username] && salesPersons[username] === password){
+                sessionStorage.setItem('loggedInUser', username);
+                window.location.href = 'index.html';
+            } else {
+                document.getElementById('errorMsg').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
