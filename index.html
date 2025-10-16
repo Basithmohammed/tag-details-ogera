@@ -114,6 +114,28 @@
         }
     </style>
 </head>
+<script>
+    // Check if user is logged in
+    const user = sessionStorage.getItem('loggedInUser');
+    if (!user) {
+        // Redirect to login page if not logged in
+        window.location.href = 'login.html';
+    } else {
+        // Optional: You can pre-fill Sales Person field if needed
+        const salesPersonMap = { "Irshad": "1", "Sajith": "2", "Sujith": "3" };
+        const salesPersonIdMap = { "Irshad": "SP001", "Sajith": "SP002", "Sujith": "SP003" };
+        const selectElem = document.getElementById('salesPerson');
+
+        if (selectElem) {
+            selectElem.value = salesPersonMap[user];
+            document.getElementById('salesPersonId').value = salesPersonIdMap[user];
+
+            // Trigger change to populate dealer dropdown
+            const event = new Event('change');
+            selectElem.dispatchEvent(event);
+        }
+    }
+</script>
 
 <body>
     <form id="salesForm">
