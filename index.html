@@ -114,6 +114,7 @@
         }
     </style>
 </head>
+
 <script>
     // Check if user is logged in
     const user = sessionStorage.getItem('loggedInUser');
@@ -121,7 +122,7 @@
         // Redirect to login page if not logged in
         window.location.href = 'login.html';
     } else {
-        // Optional: You can pre-fill Sales Person field if needed
+        // Optional: Pre-fill Sales Person field if needed
         const salesPersonMap = { "Irshad": "1", "Sajith": "2", "Sujith": "3" };
         const salesPersonIdMap = { "Irshad": "SP001", "Sajith": "SP002", "Sujith": "SP003" };
         const selectElem = document.getElementById('salesPerson');
@@ -144,7 +145,7 @@
         <label for="salesPerson">Sales Person:</label>
         <select id="salesPerson" name="salesPerson" required>
             <option value="" disabled>Select Sales Person</option>
-            <option value="1" data-id="SP001">Irshad</option>
+            <option value="1" data-id="4004">Irshad</option>
             <option value="2" data-id="SP002">Sajith</option>
             <option value="3" data-id="SP003">Sujith</option>
         </select>
@@ -190,7 +191,16 @@
                 { name: "AL AMEEN HOME CENTRE", contact: "9846206951", email: "dealerA2@email.com" },
                 { name: "Al Ghazali Pathrapura. Kondotty", contact: "9495306100", email: "dealerA1@email.com" },
                 { name: "Alfa Appliances. Areekode", contact: "8547411276", email: "dealerA2@email.com" },
-                { name: "ANSAS HOME LAND", contact: "9446949479", email: ""}
+                { name: "ANSAS HOME LAND", contact: "9446949479", email: "" },
+                { name: "Arafa Home Needs. EKKAPARAMBA", contact: "9048793031", email: "dealerA1@email.com" },
+                { name: "Arafa Store.Morayur", contact: "9388825351", email: "dealerA2@email.com" },
+                { name: "ASAS HOUSE LAND", contact: "7034948969", email: "dealerA1@email.com" },
+                { name: "BHANUSHA AGENCIES, CHELARI", contact: "9846543759", email: "dealerA2@email.com" },
+                { name: "Bharath Home Needs.AIKKARAPPADI", contact: "9847973847", email: "dealerA1@email.com" },
+                { name: "BISMI HOME NEEDS", contact: "8590522831", email: "dealerA2@email.com" },
+                { name: "BRK Home Needs Trippanachi", contact: "8089352010", email: "dealerA1@email.com" },
+                { name: "Brothers Home Appliances,,mooripaadam", contact: "9567265736", email: "dealerA2@email.com" },
+                { name: "Budget Home Needs,Pookkoottumpadam", contact: "9447681490", email: "" }
             ],
             "2": [
                 { name: "Dealer B1", contact: "9988776655", email: "dealerB1@email.com" }
@@ -211,6 +221,10 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             window.dealerChoices = new Choices('#dealerName', { searchEnabled: true, itemSelectText: '', shouldSort: false });
+
+            // 🟢 Set today's date automatically
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('complaintDate').value = today;
 
             // Auto-fill Sales Person from login
             const user = sessionStorage.getItem('loggedInUser');
