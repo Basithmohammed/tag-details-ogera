@@ -123,8 +123,8 @@
         window.location.href = 'login.html';
     } else {
         // Optional: Pre-fill Sales Person field if needed
-        const salesPersonMap = { "Irshad": "1", "Sajith": "2", "Sujith": "3" };
-        const salesPersonIdMap = { "Irshad": "SP001", "Sajith": "SP002", "Sujith": "SP003" };
+        const salesPersonMap = { "Irshad": "1", "Shafeek Rahman": "2", "Sreejith P": "3", "Sunish Chacko": "4", "Vinod Kumar": "5", "Muhammed Shafeeque KB": "6", "Ashmil": "7", "Nandu P": "8" };
+        const salesPersonIdMap = { "Irshad": "4004", "Shafeek Rahman": "4005", "Sreejith P": "4006", "Sunish Chacko": "4007", "Vinod Kumar": "4008", "Muhammed Shafeeque KB": "4009", "Ashmil": "4010", "Nandu P": "4011" };
         const selectElem = document.getElementById('salesPerson');
 
         if (selectElem) {
@@ -140,28 +140,94 @@
 
 <body>
     <form id="salesForm">
-        <h2>Submit Tag Details</h2>
+        <h2>SUBMIT TAG DETAILS</h2>
 
         <label for="salesPerson">Sales Person:</label>
         <select id="salesPerson" name="salesPerson" required>
             <option value="" disabled>Select Sales Person</option>
             <option value="1" data-id="4004">Irshad</option>
-            <option value="2" data-id="SP002">Sajith</option>
-            <option value="3" data-id="SP003">Sujith</option>
+            <option value="2" data-id="4005">Shafeek Rahman</option>
+            <option value="3" data-id="4006">Sreejith P</option>
+            <option value="4" data-id="4007">Sunish Chacko</option>
+            <option value="5" data-id="4008">Vinod Kumar</option>
+            <option value="6" data-id="4009">Muhammed Shafeeque KB</option>
+            <option value="7" data-id="4010">Ashmil</option>
+            <option value="8" data-id="4011">Nandu P</option>
         </select>
         <input type="text" id="salesPersonId" name="salesPersonId" placeholder="Sales Person ID" readonly>
 
         <label for="product">Product:</label>
         <select id="product" name="product" required>
             <option value="" disabled selected>Select Product</option>
-            <option value="A" data-id="P1001">Pressure Cooker</option>
-            <option value="B" data-id="P1002">Blender</option>
-            <option value="C" data-id="P1003">Toaster</option>
+            <option value="A" data-id="OG9000PC3L">Aluminium Pressure Cooker 3L</option>
+            <option value="B" data-id="OG9001PC5L">Aluminium Pressure Cooker 5L</option>
+            <option value="C" data-id="OG9019PC7.5L">Aluminium Pressure Cooker 7.5L</option>
+            <option value="D" data-id="OG9018PC10L">Aluminium Pressure Cooker 10L</option>
+            <option value="E" data-id="OG9020PC2P">Aluminium Pressure Cooker Combo 2P</option>
+            <option value="F" data-id="OG9021PC3P">Aluminium Pressure Cooker Combo 3P</option>
+            <option value="G" data-id="OG9022PCS3L">Stainless Steel Pressure Cooker 3L</option>
+            <option value="H" data-id="OG9023PCS5L">Stainless Steel Pressure Cooker 5L</option>
+            <option value="I" data-id="OG9024PCI3">Aluminium Pressure Cooker Inner Lid 3L</option>
+            <option value="J" data-id="OG9025PCI5">Aluminium Pressure Cooker Inner Lid 5L</option>
+
+            <option value="K" data-id="OG3001GC">2 Burner Gas Stove - Evoflame series</option>
+            <option value="L" data-id="OG3002GC">3 Burner Gas Stove - Evoflame series</option>
+            <option value="M" data-id="OG3003GC">2 Burner Gas Stove - Flamora series</option>
+            <option value="N" data-id="OG3004GC">3 Burner Gas Stove - Flamora series</option>
+            <option value="O" data-id="OG3000GC">4 Burner Gas Stove - Flamora series</option>
+            <option value="OA" data-id="OG3005GC">3 Burner Gas Stove - Triaura</option>
+        
+            <option value="P" data-id="OG8000IC">Induction Cooktop -Touch</option>
+            <option value="Q" data-id="OG8001IC">Induction Cooktop -Button</option>
+
+            <option value="R" data-id="OG1500EK">Electric Kettle -1500</option>
+            <option value="S" data-id="OG1501EK">Electric Kettle -1501</option>
+            <option value="T" data-id="OG1502EK">Electric Kettle -1502</option>
+            <option value="V" data-id="OG1503EK">SS Electric Kettle -1503</option>
+            <option value="U" data-id="OG1504EK">SS Electric Kettle -1504</option>
+
+            <option value="W" data-id="OG101D1">Dry Iron - 2KG</option>
+            <option value="X" data-id="OG100D1">Dry Iron - 1.5KG</option>
+            <option value="Y" data-id="OG102D1">Dry Iron - Light Weight</option>
+            <option value="YA" data-id="OG103D1">Dry Iron - Light Weight Silka</option>
+            <option value="YB" data-id="OG105D1">Dry Iron - Light Weight Dry Leaf</option>
+            <option value="YC" data-id="OG104D1">Dry Iron - Medium Weight Loomlite</option>
+            
+
+            <option value="Z" data-id="OG7000NB">Mixer Blender - Red</option>
+            <option value="AA" data-id="OG7000NB">Mixer Blender - Sliver</option>
+            <option value="AB" data-id="OG7000NB">Mixer Blender - Purple</option>
+
+            <option value="AC" data-id="OG9002TW">Non Stick Dosa Tawa -26cm</option>
+            <option value="AD" data-id="OG9003TW">Non Stick Dosa Tawa -28cm</option>
+            <option value="AE" data-id="OG9004FP">Non Stick Frypan -24cm</option>
+            <option value="AF" data-id="OG9005FP">Non Stick Frypan -26cm</option>
+            <option value="AG" data-id="OG9006KD">Non Stick Kadai with Glass Lid</option>
+            <option value="AH" data-id="OG9007PT">Non Stick Pathiri Tawa-Round</option>
+            <option value="AI" data-id="OG9008PT">Non Stick Pathiri Tawa-Square</option>
+            <option value="AJ" data-id="OG9009CS9">Non Stick Biriyani Pot 9 PCS</option>
+
+            <option value="AK" data-id="OG9010BP-4.5">Biriyani Pot with Glass Lid-4.5L</option>
+            <option value="AL" data-id="OG9011BP-6">Biriyani Pot with Glass Lid-6L</option>
+            <option value="AM" data-id="OG9012BP-8">Biriyani Pot with Glass Lid-8L</option>
+            <option value="AN" data-id="OG9013BP-10">Biriyani Pot with Glass Lid-10L</option>
+            <option value="AMA" data-id="OG9029BP8">Biriyani Pot with Glass Lid-Luxe BP8</option>
+            <option value="ANA" data-id="OG9028BP10">Biriyani Pot with Glass Lid-Luxe BP10</option>
+
+            <option value="AO" data-id="OG9014SP">Sauce Pan</option>
+            <option value="AP" data-id="OG9015PP">Paniyarakkal</option>
+            <option value="AQ" data-id="OG9016KTF">Kadai Tawa Frypan - 9016</option>
+            <option value="AR" data-id="OG9017KTF">Kadai Tawa Frypan - 9017</option>
+            <option value="AS" data-id="OG9026AC">Appachatty</option>
+            <option value="AT" data-id="OG9027AC">Prime Appachatty</option>
+            
+            
+
         </select>
         <input type="text" id="productId" name="productId" placeholder="Product ID" readonly>
 
         <label for="productSerial">Product Serial Number:</label>
-        <input type="text" id="productSerial" name="productSerial" placeholder="Enter Serial Number" required>
+        <input type="text" id="productSerial" name="productSerial" placeholder="Enter Serial Number">
 
         <label for="dealerName">Dealer Name:</label>
         <select id="dealerName" name="dealerName" required>
@@ -203,18 +269,56 @@
                 { name: "Budget Home Needs,Pookkoottumpadam", contact: "9447681490", email: "" }
             ],
             "2": [
-                { name: "Dealer B1", contact: "9988776655", email: "dealerB1@email.com" }
+                { name: "PAYYOLI Store Payyoli", contact: "9847413559", email: "dealerB1@email.com" }
             ],
             "3": [
-                { name: "Dealer C1", contact: "9090909090", email: "dealerC1@email.com" },
-                { name: "Dealer C2", contact: "9191919191", email: "dealerC2@email.com" }
-            ]
+                { name: "ADUKKALA KITCHEN APPLIANCE", contact: "9744310030", email: "dealerC1@email.com" },
+                { name: "AISHWARYA STORE AND GIFT", contact: "9447688626", email: "dealerC2@email.com" }
+            ],
+            "4": [
+                { name: "BLUE MART SUPERMARKET", contact: "7907161467", email: "dealerC1@email.com" },
+                { name: "CP HOME CENTRE NILAMBUR", contact: "9846238925", email: "dealerC2@email.com" }
+            ],
+            "5": [
+                { name: "APPASONS ELECTRICS & APPLIANCE", contact: "04962522885", email: "dealerC1@email.com" },
+                { name: "BADUSHA HYPERMARKET", contact: "9846892891", email: "dealerC2@email.com" },
+                { name: "LAVANYA E-MART BALUSSERY", contact: "9645404042", email: "dealerC1@email.com" },
+            ],
+            "6": [
+                { name: "GRAHALAKSHMI PULPALLY WAYANAD", contact: "9061157573", email: "dealerC1@email.com" },
+                { name: "LULU SUPERMARKET ERUMAD", contact: "9489137707", email: "dealerC2@email.com" },
+                { name: "MARY MATHA ELECTRICALS ERUMAD", contact: "9940848856", email: "dealerC1@email.com" },
+                { name: "METTAL SPOT BATHERY", contact: "9605288512"},
+                { name: "MPC ELECTRONICS MEPPADI", contact: "8590032728"},
+                { name: "NP STORE PANAMARAM WAYANAD", contact: "9544553718"},
+                { name: "RAJADHANI HOME CENTER WAYANAD", contact: "9747748011"},
+                { name: "RANI METALS MEENANGADI", contact: "9895577628"},
+                { name: "SAYONA ELECTRONICS MEENANGADI", contact: "8547072050"},
+                { name: "STOVE CENTER BATHERY", contact: "9846258470"},
+                { name: "VARNAM FANCY VADUVANJAL", contact: "9447316950"},
+            ],
+            "7": [
+                { name: "A", contact: "04962522885", email: "dealerC1@email.com" },
+                { name: "B", contact: "9846892891", email: "dealerC2@email.com" },
+                { name: "C", contact: "9645404042", email: "dealerC1@email.com" },
+            ],
+            "8": [
+                { name: "A", contact: "04962522885", email: "dealerC1@email.com" },
+                { name: "B", contact: "9846892891", email: "dealerC2@email.com" },
+                { name: "C", contact: "9645404042", email: "dealerC1@email.com" },
+            ],
+
         };
 
         const salesPersonEmails = {
-            "1": "m.basith@ogeraglobal.com",
-            "2": "bob.smith@ogeraglobal.com",
-            "3": "charlie.lee@ogeraglobal.com"
+            "1": "irshad@ogeraglobal.com",
+            "2": "shafeek.r@ogeraglobal.com",
+            "3": "sreejith@ogeraglobal.com",
+            "4": "sunish.c@ogeraglobal.com",
+            "5": "vinod.kumar@ogeraglobal.com",
+            "6": "m.shafeeque@ogeraglobal.com",
+            "7": "ashmil@ogeraglobal.com",
+            "8": "nandu@ogeraglobal.com",
         };
 
         const salesHeadEmail = "service@ogeraglobal.com";
@@ -229,8 +333,8 @@
             // Auto-fill Sales Person from login
             const user = sessionStorage.getItem('loggedInUser');
             if (user) {
-                const salesPersonMap = { "Irshad": "1", "Sajith": "2", "Sujith": "3" };
-                const salesPersonIdMap = { "Irshad": "SP001", "Sajith": "SP002", "Sujith": "SP003" };
+                const salesPersonMap = { "Irshad": "1", "Shafeek Rahman": "2", "Sreejith P": "3", "Sunish Chacko": "4", "Vinod Kumar": "5", "Muhammed Shafeeque KB": "6" ,"Ashmil": "7", "Nandu P": "8" };
+                const salesPersonIdMap = { "Irshad": "4004", "Shafeek Rahman": "4005", "Sreejith P": "4006", "Sunish Chacko": "4007", "Vinod Kumar": "4008", "Muhammed Shafeeque KB": "4009", "Ashmil": "4010", "Nandu P": "4011" };
                 const salesPersonSelect = document.getElementById('salesPerson');
                 salesPersonSelect.value = salesPersonMap[user];
                 document.getElementById('salesPersonId').value = salesPersonIdMap[user];
